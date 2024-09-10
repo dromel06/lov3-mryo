@@ -1,0 +1,147 @@
+---
+const quotes = [
+  "Buenas Mi Chiqui Triquis ❄️",
+  "You are my sunshine! ☀️",
+  "Eres mi razón para sonreír 😊",
+  "Life is better when you're laughing 😂",
+  "Eres la mejor parte de mi día 💖",
+  "You make my heart skip a beat 💓",
+  "Contigo, todo es mejor 🌟",
+  "You are the sparkle in my eyes ✨",
+  "Mi lugar favorito es a tu lado 🥰",
+  "Happiness looks gorgeous on you 🌈",
+  "Tu sonrisa ilumina mi mundo 🌍",
+  "You are my favorite notification 💌",
+  "Tu risa es mi melodía favorita 🎶",
+  "You’re my cup of tea 🍵",
+  "Te quiero hasta la luna y de vuelta 🌙",
+  "You make the world a brighter place 🌞",
+  "Eres mi persona favorita en todo el universo 🌌",
+  "You make my heart do flips 💕",
+  "Maryonesaaaa 🎼",
+  "El amor está en los pequeños detalles 💫",
+  "You are loved more than you know 💖",
+  "Eres la luz que ilumina mis días ✨",
+  "Your love is my favorite adventure 🏞️",
+  "Eres mi aventura favorita 🌍",
+  "You are the reason I believe in magic 🦄",
+  "Tenerte es un sueño hecho realidad 🌟",
+  "You fill my life with endless joy 🌈",
+  "Eres la razón por la que creo en la magia ✨",
+  "With you, everything is possible 🚀",
+  "Cada día contigo es un regalo 🎁",
+  "You're sweeter than candy 🍬",
+  "Eres mi dulce tentación 🍫",
+];
+
+const { id } = Astro.props;
+---
+
+<div class="flex justify-center items-center mt-10 px-4" id={id}>
+  <div
+    id="quote-container"
+    data-quotes={JSON.stringify(quotes)}
+    class="quote-container backdrop-blur-lg bg-white/30 border border-white/20 rounded-xl p-4 sm:p-6 shadow-lg max-w-md mx-auto cursor-pointer"
+  >
+    <p
+      id="quote-text"
+      class="no-select text-base sm:text-lg font-semibold text-pink-600 text-center"
+    >
+      {quotes[0]}
+    </p>
+  </div>
+</div>
+
+<script is:inline>
+  document.addEventListener("DOMContentLoaded", () => {
+    const container = document.getElementById("quote-container");
+    const quoteText = document.getElementById("quote-text");
+    const quotes = JSON.parse(container.getAttribute("data-quotes"));
+
+    function changeQuote() {
+      // Aplicar la animación de desvanecimiento
+      quoteText.classList.add("fade-out");
+
+      // Esperar el tiempo de la animación antes de cambiar la frase
+      setTimeout(() => {
+        const randomIndex = Math.floor(Math.random() * quotes.length);
+        quoteText.textContent = quotes[randomIndex];
+
+        // Eliminar la clase de desvanecimiento y aplicar la animación de aparición
+        quoteText.classList.remove("fade-out");
+        quoteText.classList.add("fade-in");
+
+        // Quitar la clase de aparición después de la animación para que se pueda volver a aplicar
+        setTimeout(() => {
+          quoteText.classList.remove("fade-in");
+        }, 300); // Tiempo de duración de la animación en milisegundos
+      }, 300); // Tiempo de duración de la animación de desvanecimiento
+    }
+
+    container.addEventListener("click", changeQuote);
+
+    // Cambiar la frase al cargar la página
+    changeQuote();
+  });
+</script>
+
+<style>
+  /* Estilos para el efecto de glassmorphism y animación */
+  .rounded-xl {
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 1rem;
+  }
+
+  .backdrop-blur-lg {
+    backdrop-filter: blur(10px);
+  }
+
+  /* Efecto de hover para el contenedor y el texto */
+  .quote-container {
+    transition: transform 0.3s ease-in-out; /* Transición para entrada y salida */
+  }
+
+  .quote-container:hover {
+    transform: scale(1.05); /* Agrandar el contenedor */
+  }
+
+  /* Efecto de hover para el texto */
+  #quote-text {
+    transition:
+      transform 0.3s ease-in-out,
+      color 0.3s ease-in-out; /* Transición para el texto */
+  }
+
+  .quote-container:hover #quote-text {
+    color: #c33030;
+    transform: scale(1.1); /* Agrandar ligeramente el texto */
+  }
+
+  /* Animación de desvanecimiento */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes fadeOut {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+
+  .fade-out {
+    animation: fadeOut 0.3s ease-in-out forwards;
+  }
+
+  .fade-in {
+    animation: fadeIn 0.3s ease-in-out forwards;
+  }
+</style>

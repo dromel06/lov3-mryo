@@ -1,0 +1,147 @@
+---
+const { id } = Astro.props;
+---
+
+<div class="flex items-center justify-center px-4 py-12 mt-8" id={id}>
+  <div class="cloud bg-pink-100 text-white rounded-lg float-animation">
+    <p
+      class="text-base sm:text-4xl text-center text-violet-800 mb-4 sm:mb-6 nerko-one-regular no-select"
+    >
+      ¿Me Darias el Honor de Ser tu Novio?
+    </p>
+    <span class="shadow"></span>
+  </div>
+</div>
+
+<style>
+ @keyframes float {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+.float-animation {
+  animation: float 3s ease-in-out infinite;
+}
+
+.fade-in-animation {
+  animation: fadeIn 1s ease-in-out;
+}
+
+.cloud {
+  width: 100%;
+  max-width: 350px;
+  height: 120px;
+  background: #f2f9fe;
+  background: -webkit-linear-gradient(-90deg, #f2f9fe 5%, #d6f0fd 100%);
+  border-radius: 100px;
+  position: relative;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cloud:before, .cloud:after {
+  content: "";
+  position: absolute;
+  background: #f2f9fe;
+  z-index: -1;
+}
+
+.cloud:before {
+  width: 180px;
+  height: 180px;
+  top: -90px;
+  right: 50px;
+  border-radius: 200px;
+}
+
+.cloud:after {
+  width: 100px;
+  height: 100px;
+  top: -50px;
+  left: 50px;
+  border-radius: 100px;
+}
+
+.shadow {
+  width: 320px;
+  position: absolute;
+  bottom: -20px;
+  z-index: -1;
+  -webkit-box-shadow: 0 0 25px 8px rgba(0, 0, 0, 0.4);
+  border-radius: 50%;
+}
+
+.cloud:hover {
+  transform: translateY(-15px);
+  box-shadow: 0 20px 30px rgba(0, 0, 0, 0.2);
+}
+
+.cloud:hover .shadow {
+  -webkit-box-shadow: 0 0 35px 12px rgba(0, 0, 0, 0.5);
+}
+
+/* Ajustes para dispositivos móviles */
+@media (max-width: 640px) {
+  .cloud {
+    width: 100%;
+    max-width: 280px;
+    height: auto;
+    padding: 1rem;
+  }
+
+  .cloud:before {
+    width: 140px;
+    height: 140px;
+    top: -70px;
+    right: 30px;
+  }
+
+  .cloud:after {
+    width: 80px;
+    height: 80px;
+    top: -40px;
+    left: 30px;
+  }
+
+  .shadow {
+    width: 260px;
+    bottom: -10px;
+  }
+
+  .text-base {
+    font-size: 1rem;
+  }
+}
+
+</style>

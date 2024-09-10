@@ -1,0 +1,104 @@
+---
+const apiUrl = import.meta.env.PUBLIC_API_URL; // Acceder a la variable de entorno en el servidor
+const { id } = Astro.props;
+---
+
+<div class="relative flex justify-center items-center mt-4" id={id}>
+  <div id="button-container" class="fixed flex justify-center space-x-7 p-4 z-50">
+    <button id="yesButton" class="bg-white/30 text-pink-900 font-semibold py-2 px-4 rounded-full backdrop-blur-lg border border-white/20 hover:bg-white/40 transition shadow-lg">
+      Sí
+    </button>
+    <button id="noButton" class="bg-white/30 text-gray-700 font-semibold py-2 px-4 rounded-full backdrop-blur-lg border border-white/20 hover:bg-white/40 transition shadow-lg">
+      No
+    </button>
+  </div>
+
+  <!-- Input oculto que contiene la URL de la API -->
+  <input type="hidden" id="apiUrl" value={apiUrl} />
+
+  <script type="module">
+    // Acceder al valor del input hidden
+    const apiUrl = document.getElementById('apiUrl').value;
+
+    let noClickCount = 0;
+    const yesButton = document.getElementById('yesButton');
+    const noButton = document.getElementById('noButton');
+
+    function randomPosition() {
+      const viewportWidth = window.innerWidth - noButton.offsetWidth;
+      const viewportHeight = window.innerHeight - noButton.offsetHeight;
+
+      const randomX = Math.floor(Math.random() * viewportWidth);
+      const randomY = Math.floor(Math.random() * viewportHeight);
+
+      noButton.style.position = 'fixed';
+      noButton.style.left = `${randomX}px`;
+      noButton.style.top = `${randomY}px`;
+    }
+
+    yesButton.addEventListener('click', () => {
+      // Hacer la llamada a la API al hacer clic en el botón "Sí"
+      fetch(apiUrl + '/click', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        window.location.reload();
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+    });
+
+    noButton.addEventListener('mouseover', noFunction);
+    noButton.addEventListener('click', noFunction);
+
+    function noFunction() {
+      noClickCount++;
+
+      randomPosition();
+
+      yesButton.style.transform = `scale(${1 + noClickCount * 1})`;
+      if (noClickCount === 5) {
+        noButton.classList.add('hidden');
+        yesButton.classList.remove("rounded-full");
+        yesButton.style.transform = `scale(1)`;
+
+        yesButton.classList.add('fullscreen');
+        yesButton.textContent = '¡El Sí es inevitable!';
+      }
+    }
+  </script>
+</div>
+
+
+<style>
+  #yesButton, #noButton {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    z-index: 50;
+    transition: transform 0.3s ease-in-out;
+  }
+
+  #yesButton:hover, #noButton:hover {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  #yesButton.fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    font-size: 3rem;
+    display: block;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  #noButton.hidden {
+    display: none;
+  }
+</style>

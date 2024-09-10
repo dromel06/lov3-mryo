@@ -1,0 +1,64 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Cloud from "../components/Cloud.astro";
+import Buttons from "../components/Buttons.astro";
+import CountTime from "../components/CountTime.astro";
+import CutePhrases from "../components/CutePhrases.astro";
+---
+
+<Layout title="Dromel Love Maryo">
+    <Header />
+    <main>
+      <Cloud id="cloudComponent" />
+      <Buttons id="buttonsComponent" />
+      <CountTime id="countTimeComponent" style="display: none;" thatMoment="1725500106962" />
+      <CutePhrases id="cutePhrasesComponent" style="display: none;" />
+      <!-- Botón para simular el cambio de visibilidad -->
+      <button id="toggleButton" class="fixed bottom-4 left-4 bg-pink-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-pink-500 transition duration-300 ease-in-out">
+        Toggle View
+      </button>
+    </main>
+</Layout>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const cloudComponent = document.getElementById('cloudComponent');
+    const buttonsComponent = document.getElementById('buttonsComponent');
+    const countTimeComponent = document.getElementById('countTimeComponent');
+    const cutePhrasesComponent = document.getElementById('cutePhrasesComponent');
+    const toggleButton = document.getElementById('toggleButton');
+
+    let isCountTimeVisible = false;
+
+    function changeToggle() {
+      if (isCountTimeVisible) {
+        // Mostrar los componentes Cloud y Buttons
+        cloudComponent.style.display = 'flex';
+        buttonsComponent.style.display = 'flex';
+        // Ocultar el componente CountTime y CutePhrases
+        countTimeComponent.style.display = 'none';
+        cutePhrasesComponent.style.display = 'none';
+      } else {
+        // Mostrar el componente CountTime y CutePhrases
+        countTimeComponent.style.display = 'flex';
+        cutePhrasesComponent.style.display = 'flex';
+        // Ocultar los componentes Cloud y Buttons
+        cloudComponent.style.display = 'none';
+        buttonsComponent.style.display = 'none';
+      }
+
+      // Toggle the state
+      isCountTimeVisible = !isCountTimeVisible;
+    }
+
+    toggleButton.addEventListener('click', changeToggle);
+
+    // Initialize the display based on the default state
+    changeToggle();
+  });
+</script>
+
+<style>
+  /* Puedes agregar estilos adicionales si es necesario */
+</style>

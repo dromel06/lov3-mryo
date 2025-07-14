@@ -9,31 +9,37 @@ import CutePhrases from "../components/CutePhrases.astro";
 
 // Fetch data during build
 const fetchData = async () => {
-  const response = await fetch(import.meta.env.PUBLIC_API_URL + '/clicks');
-  const data = await response.json();
-  return data.data[0] || ""; // Adjust based on your data structure
+    const response = await fetch(import.meta.env.PUBLIC_API_URL + "/clicks");
+    const data = await response.json();
+    return data.data[0] || ""; // Adjust based on your data structure
 };
 
-const thatMoment = await fetchData();
+// const thatMoment = await fetchData();
+const thatMoment = "1726016787134";
 ---
 
 <Layout title="Dromel Love Maryo">
-  <Header />
-  <main>
-    {thatMoment ? (
-      <>
-        <CountTime
-          id="countTimeComponent"
-          style="display: flex;"
-          thatMoment={thatMoment}
-        />
-        <CutePhrases id="cutePhrasesComponent" style="display: flex;" />
-      </>
-    ) : (
-      <>
-        <Cloud id="cloudComponent" />
-        <Buttons id="buttonsComponent" />
-      </>
-    )}
-  </main>
+    <Header />
+    <main>
+        {
+            thatMoment ? (
+                <>
+                    <CountTime
+                        id="countTimeComponent"
+                        style="display: flex;"
+                        thatMoment={thatMoment}
+                    />
+                    <CutePhrases
+                        id="cutePhrasesComponent"
+                        style="display: flex;"
+                    />
+                </>
+            ) : (
+                <>
+                    <Cloud id="cloudComponent" />
+                    <Buttons id="buttonsComponent" />
+                </>
+            )
+        }
+    </main>
 </Layout>
